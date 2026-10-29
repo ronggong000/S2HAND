@@ -1,66 +1,36 @@
 {
-  "README.md": {
-    "bytes": 4622,
-    "sha256": "0f079359fcbfce05ad47de4751b9d331a2ed3d222276177bae3c5883b5f9707b"
+  "schema": "s2hand_release_checksums_v2",
+  "scope": "immutable model artifacts, official bases, and critical runtime files",
+  "model_repository": {
+    "id": "mage0001/S2HAND",
+    "revision": "e37456b131139e186d9cb5552beb3e99820004d4"
   },
-  "models/S2HAND-MT-5B/manifest.json": {
-    "bytes": 923,
-    "sha256": "ca5a2829e51c1a1faa3ff47171eddcf320ea277c05c7b95cf636fb84cd6bd604"
+  "model_artifacts": {
+    "S2HAND-MT-5B": {"bytes": 3468694, "sha256": "f2185d032fd6e8819758970f2addfd8e3e4123d945f2a6bd45f0f7f1460ccdd7"},
+    "S2HAND-Pose-0.4B": {"bytes": 204998312, "sha256": "714b47d9ad81fa806dc2b14d05adc65255b3d98b2b56887ea405c5f27e0f6fd7"},
+    "S2HAND-Pose-0.8B": {"bytes": 298617912, "sha256": "1e98002c4353c097de1f374c1ffc7d2ef14e225790b1d8de2619ce16f12eafcf"},
+    "S2HAND-Pose-1B": {"bytes": 430523088, "sha256": "4cf8fefcf4091a55440d3a31d31c7795b60b5e2b33a6f942b23d586a7066d5af"},
+    "S2HAND-Pose-5B": {"bytes": 1068545982, "sha256": "2ef8a9b33e2b3173cd8152a1f812e93195bef04e433483728b3266c1645f64fd"},
+    "S2HAND-Training-WarmStart-5B": {
+      "bytes": 3468534,
+      "sha256": "9ee4ce3503ce68d266f3d1892ea4f489b247d470dfc8a94a6623f4e27d47961f",
+      "deployment_model": false
+    }
   },
-  "models/S2HAND-MT-5B/trainable.safetensors": {
-    "bytes": 3468694,
-    "sha256": "f2185d032fd6e8819758970f2addfd8e3e4123d945f2a6bd45f0f7f1460ccdd7"
+  "official_bases": {
+    "facebook/sapiens2-pose-0.4b@73572e121602e8a6eb40eb841732e88f386d250b": "f1b7b0e5423d667634a355dd86a14c5b03d243f2ac77943301c7db9f93329106",
+    "facebook/sapiens2-pose-0.8b@76f06b9854d04bb1e59e0624de39b1e8921b12aa": "530739a9a1637def1eaaf09645638a444cd52af1b0ae0489e39f07e403c4e899",
+    "facebook/sapiens2-pose-1b@f5fed8b97b99698d5eea1d14ff0855d0b4c3f000": "2dab7014a17e99e460c18817325a71dd7a81ce48d87027f01c2ee7d7b3af969f",
+    "facebook/sapiens2-pose-5b@ada1f29aa1fd454ca28665c700923a0101b6b24f": "b4848da8691c72e14d3ff71319f077363107129bf4128019eb39d072129b2a52"
   },
-  "models/S2HAND-Pose-0.4B/manifest.json": {
-    "bytes": 2992,
-    "sha256": "b84d8c3423218be3a783a9563315fe4584cf63b247e19a5fb86bd33acd3820bc"
-  },
-  "models/S2HAND-Pose-0.4B/trainable.safetensors": {
-    "bytes": 204998312,
-    "sha256": "714b47d9ad81fa806dc2b14d05adc65255b3d98b2b56887ea405c5f27e0f6fd7"
-  },
-  "models/S2HAND-Pose-0.8B/manifest.json": {
-    "bytes": 2992,
-    "sha256": "7916e585eba7c5f42a1ecb1761fabe7697fa577a24ed4cc8aced63ea9f8a08cb"
-  },
-  "models/S2HAND-Pose-0.8B/trainable.safetensors": {
-    "bytes": 298617912,
-    "sha256": "1e98002c4353c097de1f374c1ffc7d2ef14e225790b1d8de2619ce16f12eafcf"
-  },
-  "models/S2HAND-Pose-1B/manifest.json": {
-    "bytes": 2986,
-    "sha256": "1c814f798bb18614f7a5f96ac0c09abb725b904b4a6aaef147e2d058766f9226"
-  },
-  "models/S2HAND-Pose-1B/trainable.safetensors": {
-    "bytes": 430523088,
-    "sha256": "4cf8fefcf4091a55440d3a31d31c7795b60b5e2b33a6f942b23d586a7066d5af"
-  },
-  "models/S2HAND-Pose-5B/manifest.json": {
-    "bytes": 3027,
-    "sha256": "5a69f3d5aac4bb3e5c9bb5b8385c6c5f27d2e9d7e80d8b804473c79b1a952fdd"
-  },
-  "models/S2HAND-Pose-5B/trainable.safetensors": {
-    "bytes": 1068545982,
-    "sha256": "2ef8a9b33e2b3173cd8152a1f812e93195bef04e433483728b3266c1645f64fd"
-  },
-  "LICENSE.md": {
-    "bytes": 9931,
-    "sha256": "1c77a629ee16972ddb9844378038b20321143a6faf0cac26c2c04dc9b61c5288"
-  },
-  "VALIDATION.md": {
-    "bytes": 995,
-    "sha256": "0f8addc7702e27fb86a34392f6ec91e3a9c97c426ecbafd429afaab6e0ca1131"
-  },
-  "requirements.txt": {
-    "bytes": 51,
-    "sha256": "f3b64ae943f09f8a647b45ee446e2b446b59d83464fabf23194907438600e978"
-  },
-  "s2hand.py": {
-    "bytes": 9571,
-    "sha256": "a2306dfcda497faa49097de467df9744cceb1b2fd1281e37c6620c64ccb8cb22"
-  },
-  "sapiens2_backbone.py": {
-    "bytes": 31633,
-    "sha256": "7046d482da440cbedf56d9c7fd5596fa0fb35747bb7dc9d34d3c5a638d8c51db"
+  "critical_runtime_files": {
+    "s2hand/sapiens2_backbone.py": "7046d482da440cbedf56d9c7fd5596fa0fb35747bb7dc9d34d3c5a638d8c51db",
+    "configs/tailguard_v1.json": "01701d7b0069d10d23e01bb91e4c4d1c7d41fb84da2e9b517ce41efdd2af9d42",
+    "manifests/S2HAND-MT-5B.json": "ca5a2829e51c1a1faa3ff47171eddcf320ea277c05c7b95cf636fb84cd6bd604",
+    "manifests/S2HAND-Pose-0.4B.json": "67f8f691d7afac5be781c066bee4dadec0cd1f78c7f13795cbc94cdbf4edb1d3",
+    "manifests/S2HAND-Pose-0.8B.json": "42be7c14237f1b20d44ea2df035a06b5c120430b251930b5c5fbf8b99187bfae",
+    "manifests/S2HAND-Pose-1B.json": "e18bd253651fafeee7b893abc759b6fa20e807011403bbb8ebf940fad248e438",
+    "manifests/S2HAND-Pose-5B.json": "5a69f3d5aac4bb3e5c9bb5b8385c6c5f27d2e9d7e80d8b804473c79b1a952fdd",
+    "manifests/S2HAND-Training-WarmStart-5B.json": "8ef3b7f94bc9b67027528098658910d9d27222f26ed054310246ae627b53a8a3"
   }
 }
