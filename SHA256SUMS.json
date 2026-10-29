@@ -1,0 +1,66 @@
+{
+  "README.md": {
+    "bytes": 4622,
+    "sha256": "0f079359fcbfce05ad47de4751b9d331a2ed3d222276177bae3c5883b5f9707b"
+  },
+  "models/S2HAND-MT-5B/manifest.json": {
+    "bytes": 923,
+    "sha256": "ca5a2829e51c1a1faa3ff47171eddcf320ea277c05c7b95cf636fb84cd6bd604"
+  },
+  "models/S2HAND-MT-5B/trainable.safetensors": {
+    "bytes": 3468694,
+    "sha256": "f2185d032fd6e8819758970f2addfd8e3e4123d945f2a6bd45f0f7f1460ccdd7"
+  },
+  "models/S2HAND-Pose-0.4B/manifest.json": {
+    "bytes": 2992,
+    "sha256": "b84d8c3423218be3a783a9563315fe4584cf63b247e19a5fb86bd33acd3820bc"
+  },
+  "models/S2HAND-Pose-0.4B/trainable.safetensors": {
+    "bytes": 204998312,
+    "sha256": "714b47d9ad81fa806dc2b14d05adc65255b3d98b2b56887ea405c5f27e0f6fd7"
+  },
+  "models/S2HAND-Pose-0.8B/manifest.json": {
+    "bytes": 2992,
+    "sha256": "7916e585eba7c5f42a1ecb1761fabe7697fa577a24ed4cc8aced63ea9f8a08cb"
+  },
+  "models/S2HAND-Pose-0.8B/trainable.safetensors": {
+    "bytes": 298617912,
+    "sha256": "1e98002c4353c097de1f374c1ffc7d2ef14e225790b1d8de2619ce16f12eafcf"
+  },
+  "models/S2HAND-Pose-1B/manifest.json": {
+    "bytes": 2986,
+    "sha256": "1c814f798bb18614f7a5f96ac0c09abb725b904b4a6aaef147e2d058766f9226"
+  },
+  "models/S2HAND-Pose-1B/trainable.safetensors": {
+    "bytes": 430523088,
+    "sha256": "4cf8fefcf4091a55440d3a31d31c7795b60b5e2b33a6f942b23d586a7066d5af"
+  },
+  "models/S2HAND-Pose-5B/manifest.json": {
+    "bytes": 3027,
+    "sha256": "5a69f3d5aac4bb3e5c9bb5b8385c6c5f27d2e9d7e80d8b804473c79b1a952fdd"
+  },
+  "models/S2HAND-Pose-5B/trainable.safetensors": {
+    "bytes": 1068545982,
+    "sha256": "2ef8a9b33e2b3173cd8152a1f812e93195bef04e433483728b3266c1645f64fd"
+  },
+  "LICENSE.md": {
+    "bytes": 9931,
+    "sha256": "1c77a629ee16972ddb9844378038b20321143a6faf0cac26c2c04dc9b61c5288"
+  },
+  "VALIDATION.md": {
+    "bytes": 995,
+    "sha256": "0f8addc7702e27fb86a34392f6ec91e3a9c97c426ecbafd429afaab6e0ca1131"
+  },
+  "requirements.txt": {
+    "bytes": 51,
+    "sha256": "f3b64ae943f09f8a647b45ee446e2b446b59d83464fabf23194907438600e978"
+  },
+  "s2hand.py": {
+    "bytes": 9571,
+    "sha256": "a2306dfcda497faa49097de467df9744cceb1b2fd1281e37c6620c64ccb8cb22"
+  },
+  "sapiens2_backbone.py": {
+    "bytes": 31633,
+    "sha256": "7046d482da440cbedf56d9c7fd5596fa0fb35747bb7dc9d34d3c5a638d8c51db"
+  }
+}

@@ -1,0 +1,5 @@
+torch>=2.7
+safetensors>=0.5
+huggingface_hub>=0.30
+numpy>=1.26
+

@@ -1,0 +1,22 @@
+{
+  "schema_version": "tailguard.router.v1",
+  "decision": "ACCEPT_S2HAND_TAILGUARD_V1",
+  "selected": {
+    "config": {
+      "name": "s2hand_tailguard_confidence_v1",
+      "kind": "rules",
+      "rules": [
+        {
+          "feature": "native_conf_mean",
+          "direction": "low",
+          "threshold": 0.5107561469078065,
+          "target_trigger_rate": 0.4
+        }
+      ]
+    },
+    "crop_context": 2.0,
+    "selection_split": "HInt-EPICK VAL"
+  },
+  "test_reselection_forbidden": true,
+  "missing_same_side_detector_box": "return_native_prediction"
+}

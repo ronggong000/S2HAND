@@ -1,0 +1,27 @@
+{
+  "name": "S2HAND-MT-5B",
+  "file": "models/S2HAND-MT-5B/trainable.safetensors",
+  "bytes": 3468694,
+  "sha256": "f2185d032fd6e8819758970f2addfd8e3e4123d945f2a6bd45f0f7f1460ccdd7",
+  "official_base": {
+    "filename": "sapiens2_5b_pose.safetensors",
+    "bytes": 20480899148,
+    "sha256": "b4848da8691c72e14d3ff71319f077363107129bf4128019eb39d072129b2a52"
+  },
+  "transformer_blocks_zero_based": [],
+  "tensor_count": 9,
+  "tensor_names": [
+    "backbone.rope_embed.periods",
+    "decode_head.conv_layers.0.bias",
+    "decode_head.conv_layers.0.weight",
+    "decode_head.conv_layers.3.bias",
+    "decode_head.conv_layers.3.weight",
+    "decode_head.conv_layers.6.bias",
+    "decode_head.conv_layers.6.weight",
+    "decode_head.conv_pose.bias",
+    "decode_head.conv_pose.weight"
+  ],
+  "source_format": "sapiens2_public_base_delta_v1",
+  "paper_role": "main",
+  "replay_status": "historical_16_hand_exact_replay_pass"
+}

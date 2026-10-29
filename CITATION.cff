@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use S2HAND, please cite the accompanying paper."
+title: "S2HAND: Accuracy-Preservation Trade-Offs for Hand Specialization in Whole-Body Pose Models"
+type: software
+authors:
+  - family-names: Muk
+    given-names: Singyu
+    affiliation: Independent Researcher
+    email: ronggong000@gmail.com
+  - family-names: Song
+    given-names: Xuanren
+    affiliation: Tsinghua University
+    email: kowdataanalyze@gmail.com
+  - family-names: Stefanov
+    given-names: Kalin
+    affiliation: Japan Advanced Institute of Science and Technology
+    email: kalins@jaist.ac.jp
+repository-code: "https://github.com/ronggong000/S2HAND"
+license: other
+
