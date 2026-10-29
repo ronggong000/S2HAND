@@ -106,6 +106,27 @@ heatmap scores. Person detection is intentionally external so detector and crop
 protocols remain explicit. This command performs D0 inference without horizontal
 flip testing, matching the paper's default evaluation.
 
+## Optional TailGuard
+
+TailGuard uses the same S2HAND checkpoint twice: it keeps the native prediction
+unless the mean confidence of a hand is at most `0.5107561469` and a matching
+left/right hand-detector box exists. Triggered hands are re-run on the frozen
+2x square hand-box context; all 21 joints, including the wrist, are replaced
+coherently in original-image coordinates. Run the released policy with:
+
+```bash
+python tools/tailguard_infer.py \
+  --model S2HAND-MT-5B \
+  --person-detections person_detections.npz \
+  --hand-detections hand_detections.npz \
+  --output tailguard_predictions.npz \
+  --device cuda
+```
+
+The detector-cache schema, fallback behavior, and output fields are documented
+in [docs/TAILGUARD.md](docs/TAILGUARD.md). Detector outputs stay explicit and
+are not bundled with the pose checkpoint.
+
 ## Reproducibility status
 
 - All five deltas have manifests with their exact official base, tensor list,
@@ -117,6 +138,8 @@ flip testing, matching the paper's default evaluation.
 - The 0.4B, 0.8B, and 1B variants passed fresh full-resolution A100/BF16
   deterministic replay; output hashes are recorded in their manifests. See
   [VALIDATION.md](VALIDATION.md).
+- S2HAND-Pose-5B passed a complete near-exact HInt validation replay, and the
+  real S2HAND-MT-5B 40/268 route passed bitwise protected-channel validation.
 
 ## License
 

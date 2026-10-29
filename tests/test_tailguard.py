@@ -7,6 +7,7 @@ import numpy as np
 from s2hand.tailguard import (
     crop_to_original,
     detector_association_features,
+    expanded_square_box,
     geometry_features,
     load_frozen_config,
     original_to_crop,
@@ -15,6 +16,10 @@ from s2hand.tailguard import (
 
 
 class TailGuardTests(unittest.TestCase):
+    def test_expanded_square_box(self):
+        box = expanded_square_box([10, 20, 30, 30], 2.0)
+        np.testing.assert_allclose(box, [0, 5, 40, 45])
+
     def setUp(self):
         self.points = np.asarray(
             [[0, 0]]

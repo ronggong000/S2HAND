@@ -65,3 +65,11 @@ Finally, after an editable clean-checkout installation, the documented
 inference, hand-evaluation, Fisher-probe, and training CLIs all parsed their
 published command-line interfaces successfully. All relative Markdown links in
 the README, validation record, and `docs/` resolve to existing files.
+
+TailGuard was then exercised end to end with the released S2HAND-MT-5B delta,
+real NewDays images, cached person detections, and cached WiLoR-YOLO left/right
+hand detections. Across 8 images (16 hand rows), 11 rows had a matching detector
+box and 4 crossed the frozen confidence threshold. All 12 non-triggered rows
+were bitwise equal to their native predictions; all 4 triggered rows changed
+and used exactly 4 additional pose forwards. This is an implementation smoke
+test, not an additional benchmark result.

@@ -25,6 +25,8 @@
   },
   "critical_runtime_files": {
     "s2hand/sapiens2_backbone.py": "7046d482da440cbedf56d9c7fd5596fa0fb35747bb7dc9d34d3c5a638d8c51db",
+    "s2hand/tailguard.py": "9b1a3ecf7c7d7f00cd584de34adf678b2cbfa855a0c1a8725c7d0539310009c8",
+    "tools/tailguard_infer.py": "b334fde18faddaab79ff0423ded4e54ef71d54e345dfe2e1bda4c8e642530452",
     "configs/tailguard_v1.json": "01701d7b0069d10d23e01bb91e4c4d1c7d41fb84da2e9b517ce41efdd2af9d42",
     "manifests/S2HAND-MT-5B.json": "ca5a2829e51c1a1faa3ff47171eddcf320ea277c05c7b95cf636fb84cd6bd604",
     "manifests/S2HAND-Pose-0.4B.json": "67f8f691d7afac5be781c066bee4dadec0cd1f78c7f13795cbc94cdbf4edb1d3",

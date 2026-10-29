@@ -96,3 +96,15 @@ def original_to_crop(points, input_size, bbox_center, bbox_scale):
     center = np.asarray(bbox_center, np.float32)
     scale = np.asarray(bbox_scale, np.float32)
     return (points - center + 0.5 * scale) / scale * input_size
+
+
+def expanded_square_box(box, factor=1.0):
+    """Expand an ``xyxy`` detector box to the square used by TailGuard."""
+    box = np.asarray(box, np.float32)
+    if box.shape != (4,) or not np.isfinite(box).all():
+        raise ValueError("Expected one finite xyxy box")
+    if box[2] <= box[0] or box[3] <= box[1] or factor <= 0:
+        raise ValueError("Detector box and expansion factor must be positive")
+    center = 0.5 * (box[:2] + box[2:])
+    side = max(float(box[2] - box[0]), float(box[3] - box[1])) * float(factor)
+    return np.concatenate((center - side / 2.0, center + side / 2.0)).astype(np.float32)
