@@ -77,5 +77,6 @@
   ],
   "source_format": "sapiens2_trainable_delta_v1",
   "paper_role": "appendix",
-  "replay_status": "fresh_inference_replay_pending"
+  "replay_status": "fresh_full_resolution_a100_bf16_repeat_pass",
+  "replay_output_float32_sha256": "6940f2af78e26c786cdaf596f713006f50b3daefaad11839233079b988712373"
 }

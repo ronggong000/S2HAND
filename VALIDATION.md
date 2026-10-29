@@ -12,6 +12,12 @@ Before upload, all five models passed:
 Additionally, the 0.4B model's full backbone-and-head forward pass matched the
 original research implementation bitwise on a reduced-resolution 64x48 CPU input.
 
+On 2026-10-29, S2HAND-Pose-0.4B, 0.8B, and 1B each passed a fresh
+full-resolution A100/BF16 reconstruction test. Every run verified the official
+base and delta hashes, produced finite `1x308x256x192` heatmaps, and was
+bitwise-equal across two forwards of the same deterministic spatial-ramp input.
+The output hashes are recorded in the per-model manifests.
+
 The standalone image pipeline is also covered by unit tests for:
 
 - 1.25x bbox padding and 3:4 aspect-ratio correction;
@@ -20,5 +26,5 @@ The standalone image pipeline is also covered by unit tests for:
 - 308-channel UDP/DARK decoding back to original-image coordinates.
 
 These tests verify loading, architecture, routing, preprocessing, and decoding.
-Full-resolution CUDA inference and a fresh full-dataset paper-metric replay are
-still tracked separately and are not implied by the CPU unit tests.
+A fresh full-dataset paper-metric replay is still tracked separately and is not
+implied by these deterministic reconstruction tests.

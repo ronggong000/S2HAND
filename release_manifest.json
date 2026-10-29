@@ -19,7 +19,7 @@
   },
   "model_repository": {
     "id": "mage0001/S2HAND",
-    "revision": "7e001e5e0615121f242f972158c0433bc1da501b",
+    "revision": "fca5ff0eac4377c2a5f42b9efd6ac4ea31f8f74e",
     "private": true
   },
   "dataset_repository": {
@@ -45,7 +45,8 @@
       "official_base_revision": "73572e121602e8a6eb40eb841732e88f386d250b",
       "official_base_file": "sapiens2_0.4b_pose.safetensors",
       "official_base_sha256": "f1b7b0e5423d667634a355dd86a14c5b03d243f2ac77943301c7db9f93329106",
-      "transformer_blocks_zero_based": [16, 17, 18]
+      "transformer_blocks_zero_based": [16, 17, 18],
+      "replay_output_float32_sha256": "183bb96d46a7e28e041de6a95f83f678694b1213b096692533bc6d15d85d2322"
     },
     {
       "name": "S2HAND-Pose-0.8B",
@@ -54,7 +55,8 @@
       "official_base_revision": "76f06b9854d04bb1e59e0624de39b1e8921b12aa",
       "official_base_file": "sapiens2_0.8b_pose.safetensors",
       "official_base_sha256": "530739a9a1637def1eaaf09645638a444cd52af1b0ae0489e39f07e403c4e899",
-      "transformer_blocks_zero_based": [17, 18, 19]
+      "transformer_blocks_zero_based": [17, 18, 19],
+      "replay_output_float32_sha256": "8baa4c8b817d7aa05e49506a443f338d87819465bac91138ce2ca0dfc55817e0"
     },
     {
       "name": "S2HAND-Pose-1B",
@@ -63,7 +65,8 @@
       "official_base_revision": "f5fed8b97b99698d5eea1d14ff0855d0b4c3f000",
       "official_base_file": "sapiens2_1b_pose.safetensors",
       "official_base_sha256": "2dab7014a17e99e460c18817325a71dd7a81ce48d87027f01c2ee7d7b3af969f",
-      "transformer_blocks_zero_based": [28, 29, 30]
+      "transformer_blocks_zero_based": [28, 29, 30],
+      "replay_output_float32_sha256": "6940f2af78e26c786cdaf596f713006f50b3daefaad11839233079b988712373"
     },
     {
       "name": "S2HAND-Pose-5B",
