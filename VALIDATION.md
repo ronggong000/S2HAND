@@ -12,7 +12,13 @@ Before upload, all five models passed:
 Additionally, the 0.4B model's full backbone-and-head forward pass matched the
 original research implementation bitwise on a reduced-resolution 64x48 CPU input.
 
-These tests verify loading, architecture and routing. Full-resolution CUDA
-inference and a fresh full-dataset paper-metric replay were not run on this CPU
-host. The script returns heatmaps; the caller supplies the corresponding person
-crop preprocessing and UDP coordinate decoder for paper-protocol predictions.
+The standalone image pipeline is also covered by unit tests for:
+
+- 1.25x bbox padding and 3:4 aspect-ratio correction;
+- UDP affine mapping at the crop center;
+- RGB/ImageNet input tensor shape and finite normalization; and
+- 308-channel UDP/DARK decoding back to original-image coordinates.
+
+These tests verify loading, architecture, routing, preprocessing, and decoding.
+Full-resolution CUDA inference and a fresh full-dataset paper-metric replay are
+still tracked separately and are not implied by the CPU unit tests.

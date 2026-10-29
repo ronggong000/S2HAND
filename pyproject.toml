@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "s2hand"
+version = "0.1.0"
+description = "Hand-specialized Sapiens2 whole-body pose models"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {file = "LICENSE.md"}
+authors = [
+  {name = "Singyu Muk", email = "ronggong000@gmail.com"},
+  {name = "Xuanren Song", email = "kowdataanalyze@gmail.com"},
+  {name = "Kalin Stefanov", email = "kalins@jaist.ac.jp"},
+]
+dependencies = [
+  "torch>=2.7",
+  "safetensors>=0.5",
+  "huggingface_hub>=0.30",
+  "numpy>=1.26",
+  "opencv-python-headless>=4.8",
+]
+
+[tool.setuptools.packages.find]
+include = ["s2hand*"]

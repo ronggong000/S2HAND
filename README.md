@@ -49,7 +49,7 @@ Python 3.12 and PyTorch 2.7 or newer are recommended.
 ```bash
 git clone https://github.com/ronggong000/S2HAND.git
 cd S2HAND
-pip install -r requirements.txt
+pip install -e .
 hf auth login  # required while the model repository is private
 ```
 
@@ -66,11 +66,31 @@ with torch.inference_mode(), torch.autocast("cuda", dtype=torch.bfloat16):
     heatmaps = model(normalized_person_crops)  # Bx308x256x192
 ```
 
-This initial loader exposes the verified heatmap forward pass. A full image
-pipeline additionally requires person detection, the Sapiens2 affine crop, UDP
-coordinate decoding, and optional flip testing. Those entry points are being
-cleaned for release rather than copied directly from the cluster experiment
-tree.
+## Run on images
+
+S2HAND is a top-down estimator and therefore takes a person box. Create a TSV
+with one row per person:
+
+```text
+images/example.jpg  x1  y1  x2  y2
+```
+
+Then run the same 1.25x padded 3:4 crop, UDP affine transform, ImageNet
+normalization, and UDP/DARK decoder used in our evaluation:
+
+```bash
+python tools/infer.py \
+  --model S2HAND-Pose-0.4B \
+  --inputs people.tsv \
+  --output predictions.npz \
+  --device cuda \
+  --batch-size 4
+```
+
+The output contains all 308 keypoints in original-image coordinates and their
+heatmap scores. Person detection is intentionally external so detector and crop
+protocols remain explicit. This command performs D0 inference without horizontal
+flip testing, matching the paper's default evaluation.
 
 ## Reproducibility status
 
