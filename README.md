@@ -108,8 +108,9 @@ flip testing, matching the paper's default evaluation.
 - Routed-head behavior was checked against the research implementation.
 - The 0.4B full backbone and head passed a bitwise CPU smoke test on a reduced
   input.
-- Fresh full-resolution replay for all smaller variants remains on the release
-  checklist; see [VALIDATION.md](VALIDATION.md).
+- The 0.4B, 0.8B, and 1B variants passed fresh full-resolution A100/BF16
+  deterministic replay; output hashes are recorded in their manifests. See
+  [VALIDATION.md](VALIDATION.md).
 
 ## License
 
