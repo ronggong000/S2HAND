@@ -32,6 +32,18 @@ class RoutingTest(unittest.TestCase):
         self.assertTrue(torch.equal(baseline[:, protected], adapted[:, protected]))
         self.assertFalse(torch.equal(baseline[:, ~protected], adapted[:, ~protected]))
 
+    def test_protected_route_does_not_backpropagate_to_shared_features(self):
+        torch.manual_seed(11)
+        head = RoutedPoseHead(
+            channels=4, deconv_channels=(4, 4), decoder_channels=(4, 4, 4)
+        ).eval()
+        head.freeze_public_route()
+        features = torch.randn(1, 4, 2, 2, requires_grad=True)
+        output = head(features)
+        output[:, head.protected_mask].sum().backward()
+        self.assertIsNotNone(features.grad)
+        self.assertTrue(torch.equal(features.grad, torch.zeros_like(features.grad)))
+
     def test_release_block_selections_match_manifests(self):
         release = json.loads((ROOT / "release_manifest.json").read_text())
         expected = {

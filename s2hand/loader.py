@@ -100,8 +100,11 @@ def backbone_class(cache_dir=None, local_files_only=False):
 
 
 class RoutedPoseHead(nn.Module):
-    def __init__(self, channels, deconv_channels=(1024,768), decoder_channels=(512,512,256)):
+    def __init__(self, channels, deconv_channels=(1024,768),
+                 decoder_channels=(512,512,256),
+                 allow_protected_input_grad=False):
         super().__init__()
+        self.allow_protected_input_grad = bool(allow_protected_input_grad)
         first, second = deconv_channels
         self.deconv_layers = nn.Sequential(
             nn.ConvTranspose2d(channels, first, 4, stride=2, padding=1, bias=False),
@@ -130,7 +133,9 @@ class RoutedPoseHead(nn.Module):
     def forward(self, features):
         features = self.deconv_layers(features)
         adapted = self.conv_pose(self.conv_layers(features))
-        public = self.public_projection(self.public_decoder(features))
+        context = torch.enable_grad if self.allow_protected_input_grad else torch.no_grad
+        with context():
+            public = self.public_projection(self.public_decoder(features))
         return torch.where(self.protected_mask[None, :, None, None], public, adapted)
 
 
