@@ -47,6 +47,8 @@ The hand objective, data roles, routing, and Fisher-selected block policy are
 documented in [docs/TRAINING.md](docs/TRAINING.md).
 The no-update block-selection probe and its cached-batch schema are documented
 in [docs/FISHER.md](docs/FISHER.md).
+The aligned 2D hand schemas and strict paper metrics are documented in
+[docs/EVALUATION.md](docs/EVALUATION.md).
 
 ## Installation
 
