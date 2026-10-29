@@ -25,6 +25,13 @@ The standalone image pipeline is also covered by unit tests for:
 - RGB/ImageNet input tensor shape and finite normalization; and
 - 308-channel UDP/DARK decoding back to original-image coordinates.
 
-These tests verify loading, architecture, routing, preprocessing, and decoding.
-A fresh full-dataset paper-metric replay is still tracked separately and is not
-implied by these deterministic reconstruction tests.
+The protocol-locked evaluator was also compared with the NewDays paper closure
+aggregate for S2HAND-Pose. Hand count, evaluated-joint count, recall,
+PCK@.05/.10/.15/.20, AUC@.20, severe-tail rate, and finite-hand NME all matched
+exactly.
+
+The standalone training adapter's UDP targets were compared element-by-element
+with the original research encoder on randomized in-frame and outside-frame
+points; target weights and all heatmap values were exactly equal. Unit tests
+also cover the 42-channel layout, visibility handling, and protected-route
+gradient stop.

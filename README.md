@@ -51,6 +51,8 @@ The no-update block-selection probe and its cached-batch schema are documented
 in [docs/FISHER.md](docs/FISHER.md).
 The aligned 2D hand schemas and strict paper metrics are documented in
 [docs/EVALUATION.md](docs/EVALUATION.md).
+The standalone HInt directory contract and source-balanced training adapter
+are documented in [docs/DATA.md](docs/DATA.md).
 
 ## Installation
 
