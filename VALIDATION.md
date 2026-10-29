@@ -45,3 +45,23 @@ expected tensors. A separate process then loaded that generated delta over the
 pinned official base with `load_training_checkpoint` and reproduced finite
 canonical validation metrics. The two-hand diagnostic slice is a mechanics
 test only and is not reported as a paper benchmark result.
+
+The released S2HAND-MT-5B route was also checked with its verified final delta
+and a real HInt validation image. All 268 protected heatmaps were bitwise equal
+to the frozen public decoder route (maximum absolute difference `0.0`), while
+the 40 adapted finger heatmaps differed from that route. The ordinary model
+forward was bitwise equal to an independently assembled explicit 40/268 route.
+
+The clean checkout also replayed the complete 1,175-hand HInt NewDays/EPICK
+validation split for the released S2HAND-Pose-5B delta. The catastrophic-tail
+rate matched the original research record exactly (`0.0144680851`). Selection
+AUC was `0.7656657143`, versus `0.7656003214` in the original record (absolute
+difference `0.0000653929`), and combined NME differed by `0.0000097603`.
+This is a near-exact protocol replay rather than a bitwise claim: the largest
+single metric difference was `0.0019462` for a discontinuous occluded-joint PCK
+threshold count.
+
+Finally, after an editable clean-checkout installation, the documented
+inference, hand-evaluation, Fisher-probe, and training CLIs all parsed their
+published command-line interfaces successfully. All relative Markdown links in
+the README, validation record, and `docs/` resolve to existing files.
