@@ -43,6 +43,8 @@ applies the delta, and reconstructs the protected decoder route.
 Official base checkpoints are not duplicated in this repository.
 The pinned base revisions, delta hashes, Hugging Face revisions, and TailGuard
 configuration are collected in [release_manifest.json](release_manifest.json).
+The hand objective, data roles, routing, and Fisher-selected block policy are
+documented in [docs/TRAINING.md](docs/TRAINING.md).
 
 ## Installation
 
