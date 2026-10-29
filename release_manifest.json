@@ -1,0 +1,84 @@
+{
+  "schema": "s2hand_release_manifest_v1",
+  "status": "private_fg2027_review_staging",
+  "generated_utc": "2026-10-29",
+  "paper": {
+    "title": "S2HAND: Accuracy-Preservation Trade-Offs for Hand Specialization in Whole-Body Pose Models",
+    "venue": "FG 2027",
+    "authors": [
+      "Singyu Muk",
+      "Xuanren Song",
+      "Kalin Stefanov"
+    ]
+  },
+  "code": {
+    "repository": "https://github.com/ronggong000/S2HAND",
+    "validated_parent_revision": "e343e3d",
+    "license_file": "LICENSE.md",
+    "license": "Sapiens2 License"
+  },
+  "model_repository": {
+    "id": "mage0001/S2HAND",
+    "revision": "7e001e5e0615121f242f972158c0433bc1da501b",
+    "private": true
+  },
+  "dataset_repository": {
+    "id": "mage0001/H2SMV-FPV",
+    "revision": "1bc3b9fc6ca990749b295d6c1e3258f5a6c9d286",
+    "private": true,
+    "asset_upload_status": "documentation_split_schema_and_portable_manifest"
+  },
+  "models": [
+    {
+      "name": "S2HAND-MT-5B",
+      "delta_sha256": "f2185d032fd6e8819758970f2addfd8e3e4123d945f2a6bd45f0f7f1460ccdd7",
+      "official_base_repo": "facebook/sapiens2-pose-5b",
+      "official_base_revision": "ada1f29aa1fd454ca28665c700923a0101b6b24f",
+      "official_base_file": "sapiens2_5b_pose.safetensors",
+      "official_base_sha256": "b4848da8691c72e14d3ff71319f077363107129bf4128019eb39d072129b2a52",
+      "transformer_blocks_zero_based": []
+    },
+    {
+      "name": "S2HAND-Pose-0.4B",
+      "delta_sha256": "714b47d9ad81fa806dc2b14d05adc65255b3d98b2b56887ea405c5f27e0f6fd7",
+      "official_base_repo": "facebook/sapiens2-pose-0.4b",
+      "official_base_revision": "73572e121602e8a6eb40eb841732e88f386d250b",
+      "official_base_file": "sapiens2_0.4b_pose.safetensors",
+      "official_base_sha256": "f1b7b0e5423d667634a355dd86a14c5b03d243f2ac77943301c7db9f93329106",
+      "transformer_blocks_zero_based": [16, 17, 18]
+    },
+    {
+      "name": "S2HAND-Pose-0.8B",
+      "delta_sha256": "1e98002c4353c097de1f374c1ffc7d2ef14e225790b1d8de2619ce16f12eafcf",
+      "official_base_repo": "facebook/sapiens2-pose-0.8b",
+      "official_base_revision": "76f06b9854d04bb1e59e0624de39b1e8921b12aa",
+      "official_base_file": "sapiens2_0.8b_pose.safetensors",
+      "official_base_sha256": "530739a9a1637def1eaaf09645638a444cd52af1b0ae0489e39f07e403c4e899",
+      "transformer_blocks_zero_based": [17, 18, 19]
+    },
+    {
+      "name": "S2HAND-Pose-1B",
+      "delta_sha256": "4cf8fefcf4091a55440d3a31d31c7795b60b5e2b33a6f942b23d586a7066d5af",
+      "official_base_repo": "facebook/sapiens2-pose-1b",
+      "official_base_revision": "f5fed8b97b99698d5eea1d14ff0855d0b4c3f000",
+      "official_base_file": "sapiens2_1b_pose.safetensors",
+      "official_base_sha256": "2dab7014a17e99e460c18817325a71dd7a81ce48d87027f01c2ee7d7b3af969f",
+      "transformer_blocks_zero_based": [28, 29, 30]
+    },
+    {
+      "name": "S2HAND-Pose-5B",
+      "delta_sha256": "2ef8a9b33e2b3173cd8152a1f812e93195bef04e433483728b3266c1645f64fd",
+      "official_base_repo": "facebook/sapiens2-pose-5b",
+      "official_base_revision": "ada1f29aa1fd454ca28665c700923a0101b6b24f",
+      "official_base_file": "sapiens2_5b_pose.safetensors",
+      "official_base_sha256": "b4848da8691c72e14d3ff71319f077363107129bf4128019eb39d072129b2a52",
+      "transformer_blocks_zero_based": [38, 39, 40]
+    }
+  ],
+  "tailguard": {
+    "config": "configs/tailguard_v1.json",
+    "mean_hand_confidence_threshold": 0.5107561469078065,
+    "recrop_context": 2.0,
+    "selection_split": "HInt EPICK validation"
+  }
+}

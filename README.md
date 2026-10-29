@@ -41,6 +41,8 @@ applies the delta, and reconstructs the protected decoder route.
 | S2HAND-Pose-5B | 38--40 | 1019.04 MiB |
 
 Official base checkpoints are not duplicated in this repository.
+The pinned base revisions, delta hashes, Hugging Face revisions, and TailGuard
+configuration are collected in [release_manifest.json](release_manifest.json).
 
 ## Installation
 
