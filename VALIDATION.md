@@ -35,3 +35,13 @@ with the original research encoder on randomized in-frame and outside-frame
 points; target weights and all heatmap values were exactly equal. Unit tests
 also cover the 42-channel layout, visibility handling, and protected-route
 gradient stop.
+
+On 2026-10-30, the standalone Pose-5B trainer passed a real one-step L40S/BF16
+mechanics test from the pinned training warm-start. It completed canonical
+NewDays/EPICK validation, a forward/backward update of blocks 38--40 and the
+adapted decoder, gradient clipping, best/final checkpoint serialization, and
+manifest hashing. The 1,068,545,694-byte final delta contained exactly the 60
+expected tensors. A separate process then loaded that generated delta over the
+pinned official base with `load_training_checkpoint` and reproduced finite
+canonical validation metrics. The two-hand diagnostic slice is a mechanics
+test only and is not reported as a paper benchmark result.

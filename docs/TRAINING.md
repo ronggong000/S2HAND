@@ -71,7 +71,8 @@ end-to-end launcher without an MMEngine or Slurm dependency.
 ## Run training
 
 After arranging HInt as described in [DATA.md](DATA.md), retrain either 5B
-variant with one A100 80GB-class GPU:
+variant with one CUDA GPU with at least 48 GiB memory. The mechanical training
+smoke was validated on an L40S; an A100 is faster for the full run:
 
 ```bash
 python tools/train.py \
