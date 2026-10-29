@@ -53,6 +53,8 @@ The aligned 2D hand schemas and strict paper metrics are documented in
 [docs/EVALUATION.md](docs/EVALUATION.md).
 The standalone HInt directory contract and source-balanced training adapter
 are documented in [docs/DATA.md](docs/DATA.md).
+The non-Slurm end-to-end MT/Pose optimizer and HInt checkpoint selector are
+available as `tools/train.py` and documented in [docs/TRAINING.md](docs/TRAINING.md).
 
 ## Installation
 

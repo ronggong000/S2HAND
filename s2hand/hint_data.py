@@ -154,11 +154,19 @@ class HIntSupervisedDataset(Dataset):
             raise ValueError(f"Expected one hand in {path}")
         annotation = annotations[0]
         points = np.asarray(annotation["keypoints"], np.float32).reshape(21, -1)[:, :2]
-        exists = np.asarray(annotation.get("existence", np.ones(21)), np.float32)
+        exists = np.asarray(
+            annotation.get("existence", np.ones(21)), np.float32
+        ).reshape(21)
+        occlusion = np.asarray(
+            annotation.get("occlusion", np.zeros(21)), np.float32
+        ).reshape(21)
         side = hand_side(annotation, path.stem)
+        original_side = side
+        original_points = points.copy()
+        hand_box = annotation_bbox(annotation)
         rng = np.random.default_rng(np.random.randint(2**32 - 1))
         context = rng.uniform(1.875, 3.125) if self.augment else 2.5
-        center, scale = _aspect_scale(annotation_bbox(annotation), context)
+        center, scale = _aspect_scale(hand_box, context)
         rotation = 0.0
         if self.augment:
             center += rng.uniform(-.08, .08, 2).astype(np.float32) * scale
@@ -196,6 +204,22 @@ class HIntSupervisedDataset(Dataset):
             "gt_uv": torch.from_numpy(mapped.reshape(2, 21, 2)),
             "visibility": torch.from_numpy(weights.reshape(2, 21)),
             "source": SOURCES[self.subset],
+            # Canonical validation metadata. These fields are intentionally
+            # returned for TRAIN too, keeping one stable collate contract.
+            "sample_id": f"{self.split.lower()}_{self.subset}_{index:08d}",
+            "image_path": str(path.with_suffix(".jpg")),
+            "hand_side": original_side,
+            "gt_original": torch.from_numpy(original_points),
+            "existence_original": torch.from_numpy(exists),
+            "occlusion_original": torch.from_numpy(occlusion),
+            "hand_bbox_original": torch.from_numpy(hand_box),
+            "metric_norm": torch.tensor(
+                max(float(hand_box[2] - hand_box[0]),
+                    float(hand_box[3] - hand_box[1]), 1.0),
+                dtype=torch.float32,
+            ),
+            "crop_center": torch.from_numpy(center.copy()),
+            "crop_scale": torch.from_numpy(scale.copy()),
         }
 
 

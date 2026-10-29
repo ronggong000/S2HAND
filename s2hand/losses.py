@@ -16,6 +16,23 @@ HAND_EDGES = tuple(
 )
 COORDINATE_WEIGHT = 0.0030615822269171302
 TOPOLOGY_WEIGHT = 0.0016362079765548576
+# COCO WholeBody anatomical order: left wrist + five finger chains, then
+# right wrist + five finger chains. Sapiens2 stores each finger tip-to-root,
+# so this is deliberately not ``range(21, 63)``.
+HAND_CHANNELS = (
+    62, 45, 44, 43, 42, 49, 48, 47, 46, 53, 52, 51, 50,
+    57, 56, 55, 54, 61, 60, 59, 58,
+    41, 24, 23, 22, 21, 28, 27, 26, 25, 32, 31, 30, 29,
+    36, 35, 34, 33, 40, 39, 38, 37,
+)
+
+
+def hand_heatmaps_from_output(output: torch.Tensor) -> torch.Tensor:
+    """Select Sapiens2 hand heatmaps in COCO/HInt anatomical order."""
+    if output.ndim != 4 or output.shape[1] != 308:
+        raise ValueError(f"Expected [B,308,H,W], got {tuple(output.shape)}")
+    channels = torch.as_tensor(HAND_CHANNELS, device=output.device)
+    return output.index_select(1, channels)
 
 
 def _masked_mean(values: torch.Tensor, mask: torch.Tensor) -> torch.Tensor:

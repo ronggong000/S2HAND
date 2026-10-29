@@ -64,8 +64,51 @@ the probe takes no optimizer step.
 
 The non-deployment warm-start is released so the lineage and Fisher probe do
 not depend on an unpublished intermediate checkpoint. The clean repository
-currently exposes the exact objective, model reconstruction, protected
-routing, inference, and validation utilities. The dataset adapter and
-end-to-end optimizer launcher are being separated from the original Sapiens2
-research checkout; until that lands, do not treat this page as a one-command
-claim of retraining the paper checkpoints from scratch.
+also exposes the exact data adapter, objective, optimizer groups, protected
+routing, canonical HInt validation, tail-gated checkpoint selector, and
+end-to-end launcher without an MMEngine or Slurm dependency.
+
+## Run training
+
+After arranging HInt as described in [DATA.md](DATA.md), retrain either 5B
+variant with one A100 80GB-class GPU:
+
+```bash
+python tools/train.py \
+  --variant mt \
+  --data-root /path/to/HInt_annotation_partial \
+  --output runs/s2hand_mt_5b \
+  --device cuda
+
+python tools/train.py \
+  --variant pose \
+  --data-root /path/to/HInt_annotation_partial \
+  --output runs/s2hand_pose_5b \
+  --device cuda \
+  --blocks 38,39,40
+```
+
+Both commands load the pinned `S2HAND-Training-WarmStart-5B` artifact. MT runs
+6,000 steps, saves the stage boundary, deliberately recreates AdamW, and then
+runs the 12,000-step adaptation stage. Pose runs an independent 18,000-step
+optimization. Pose activation checkpointing begins at the earliest selected
+block; `--no-checkpointing` disables it for debugging.
+
+Validation first establishes a pre-stage baseline. It then runs every 3,000
+steps using the fixed 2.5x HInt crop, a 1.30x target-region heatmap mask, and
+UDP/DARK decoding. `best_delta.safetensors` changes only if NewDays/EPICK macro
+AUC@0.20 improves while the per-hand NME>0.20 rate stays within 0.005 of the
+baseline. The baseline remains the selected checkpoint if no trained state
+passes both conditions. `history.jsonl`, baseline/best metrics, the 6k MT
+boundary, final delta, and SHA-256 manifests are written to the output folder.
+Load a selected retrained checkpoint directly with:
+
+```python
+from s2hand import load_training_checkpoint
+model = load_training_checkpoint("runs/s2hand_pose_5b/best_delta.safetensors",
+                                 device="cuda")
+```
+
+The hand channels are gathered in COCO/HInt anatomical order before applying
+the loss. Although the Sapiens2 hand channels occupy indices 21--62, their
+native order is not anatomical and must not be replaced by a contiguous slice.

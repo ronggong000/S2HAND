@@ -6,7 +6,8 @@ as TailGuard can be used without constructing the model runtime.
 
 __all__ = [
     "NAMES", "TRAINING_WARM_START", "S2Hand", "load_model",
-    "load_training_warm_start", "prepare", "prepare_training_warm_start",
+    "load_training_checkpoint", "load_training_warm_start", "prepare",
+    "prepare_training_warm_start",
 ]
 
 

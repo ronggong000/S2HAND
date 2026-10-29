@@ -17,7 +17,8 @@ HInt_annotation_partial/
 ```
 
 `s2hand.hint_data.SourceBalancedHInt` implements the paper's deterministic
-1:1 source exposure. Each annotation file must contain one HInt hand with 21
+1:1 source exposure. Shuffling changes order but not the equal source counts.
+Each annotation file must contain one HInt hand with 21
 keypoints, existence flags, a side label (or side-suffixed filename), and an
 `xyxy` hand box. The adapter preserves boxes that extend outside the image and
 uses affine padding, matching the locked protocol.

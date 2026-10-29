@@ -2,13 +2,22 @@ import unittest
 
 import torch
 
-from s2hand.losses import HAND_EDGES, hand_geometry_losses, s2hand_objective
+from s2hand.losses import (
+    HAND_CHANNELS, HAND_EDGES, hand_geometry_losses,
+    hand_heatmaps_from_output, s2hand_objective,
+)
 
 
 class S2HandLossTest(unittest.TestCase):
     def test_hand_graph_has_twenty_edges(self):
         self.assertEqual(len(HAND_EDGES), 20)
         self.assertEqual(len(set(HAND_EDGES)), 20)
+
+    def test_sapiens_channels_are_reordered_to_anatomical_order(self):
+        output = torch.arange(308.0).view(1, 308, 1, 1)
+        selected = hand_heatmaps_from_output(output).flatten().tolist()
+        self.assertEqual(selected, [float(index) for index in HAND_CHANNELS])
+        self.assertNotEqual(tuple(HAND_CHANNELS), tuple(range(21, 63)))
 
     def test_identical_softargmax_target_is_zero_geometry(self):
         torch.manual_seed(3)

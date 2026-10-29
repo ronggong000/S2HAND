@@ -21,7 +21,7 @@ from safetensors.torch import load_file
 from s2hand.loader import (
     NAMES, TRAINING_WARM_START, load_model, load_training_warm_start,
 )
-from s2hand.losses import s2hand_objective
+from s2hand.losses import hand_heatmaps_from_output, s2hand_objective
 
 REQUIRED_BATCH_KEYS = (
     "images", "target_heatmaps", "target_weights", "gt_uv", "visibility"
@@ -87,7 +87,7 @@ def measure_block(
                             enabled=bf16 and device.type == "cuda"):
             output = model(batch["images"].float())
             loss, _ = s2hand_objective(
-                output[:, 21:63],
+                hand_heatmaps_from_output(output),
                 batch["target_heatmaps"],
                 batch["target_weights"],
                 batch["gt_uv"],

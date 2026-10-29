@@ -205,14 +205,43 @@ def load_model(model_name='S2HAND-MT-5B', *, device='cpu', cache_dir=None,
 
 def load_training_warm_start(*, device='cpu', cache_dir=None, base_path=None,
                              delta_path=None, manifest_path=None,
-                             local_files_only=False):
+                             local_files_only=False, return_manifest=False):
     """Load the exact common 5B initialization for training/Fisher probes."""
     base, delta, manifest = prepare_training_warm_start(
         cache_dir=cache_dir, base_path=base_path, delta_path=delta_path,
         manifest_path=manifest_path, local_files_only=local_files_only)
-    return _load_prepared(
+    model = _load_prepared(
         TRAINING_WARM_START, '5b', base, delta, manifest, device=device,
         cache_dir=cache_dir, local_files_only=local_files_only)
+    return (model, manifest) if return_manifest else model
+
+
+def load_training_checkpoint(delta_path, manifest_path=None, *, device='cpu',
+                             cache_dir=None, base_path=None,
+                             local_files_only=False):
+    """Load a delta written by ``tools/train.py`` over its pinned base."""
+    delta_path = Path(delta_path)
+    manifest_path = Path(manifest_path or delta_path.with_suffix('.json'))
+    manifest = json.loads(manifest_path.read_text())
+    if manifest.get('schema') != 's2hand_training_checkpoint_v1':
+        raise ValueError('Unsupported training checkpoint manifest')
+    if Path(manifest.get('file', '')).name != delta_path.name:
+        raise ValueError('Training manifest names a different delta file')
+    if manifest.get('scale') != '5b':
+        raise ValueError('Released standalone trainer currently supports 5B')
+    base = manifest['official_base']
+    if base_path is None:
+        base_path = hf_hub_download(
+            base['repo'], base['filename'], revision=base['revision'],
+            cache_dir=cache_dir, local_files_only=local_files_only,
+        )
+    verify(base_path, base['sha256'])
+    verify(delta_path, manifest['sha256'])
+    return _load_prepared(
+        manifest.get('name', 'S2HAND-Custom-5B'), '5b', Path(base_path),
+        delta_path, manifest, device=device, cache_dir=cache_dir,
+        local_files_only=local_files_only,
+    )
 
 
 def main():
