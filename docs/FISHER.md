@@ -1,7 +1,8 @@
 # Block-wise Fisher probe
 
 S2HAND-Pose selects three Transformer blocks using diagonal-Fisher sensitivity
-to the frozen S2HAND hand objective. The probe does not construct an optimizer,
+to the S2HAND hand objective at the shared 5B training warm-start. The probe
+does not construct an optimizer,
 take an update, or modify a checkpoint. Each block receives the same cached
 supervision batches.
 
@@ -24,7 +25,7 @@ They can be generated after obtaining HInt under its own terms.
 
 ```bash
 python tools/probe_fisher.py \
-  --model S2HAND-MT-5B \
+  --model S2HAND-Training-WarmStart-5B \
   --batch fisher_batch_00.safetensors \
   --batch fisher_batch_01.safetensors \
   --max-batches 16 \
@@ -37,3 +38,9 @@ The primary ranking is the mean trace of the empirical diagonal Fisher,
 implemented as the sum of squared gradients of the complete hand loss. The
 CSV also reports Fisher per parameter and relative Fisher per parameter. The
 paper's released 5B selection is zero-based blocks 38, 39, and 40.
+
+`S2HAND-Training-WarmStart-5B` is a compact base delta used only for training
+lineage and Fisher reproduction; it is not a deployment checkpoint. The final
+S2HAND-MT and S2HAND-Pose branches were trained independently from it. Passing
+a final deployment model to `--model` is supported only for exploratory probes
+and does not reproduce the paper's layer-selection initialization.

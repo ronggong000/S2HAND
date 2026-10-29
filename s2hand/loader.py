@@ -19,7 +19,7 @@ from safetensors.torch import load_file
 from huggingface_hub import hf_hub_download
 
 REPO = 'mage0001/S2HAND'
-WEIGHT_REVISION = '4e4fa442ec0c3ae4d6b2e05c71eec8229976ed98'
+WEIGHT_REVISION = 'e37456b131139e186d9cb5552beb3e99820004d4'
 BASES = {
     '0.4b': '73572e121602e8a6eb40eb841732e88f386d250b',
     '0.8b': '76f06b9854d04bb1e59e0624de39b1e8921b12aa',
@@ -27,6 +27,7 @@ BASES = {
     '5b': 'ada1f29aa1fd454ca28665c700923a0101b6b24f',
 }
 NAMES = ('S2HAND-MT-5B', 'S2HAND-Pose-5B', 'S2HAND-Pose-1B', 'S2HAND-Pose-0.8B', 'S2HAND-Pose-0.4B')
+TRAINING_WARM_START = 'S2HAND-Training-WarmStart-5B'
 # Filled with the exact bundled official standalone source fingerprint.
 BACKBONE_SHA256 = '7046d482da440cbedf56d9c7fd5596fa0fb35747bb7dc9d34d3c5a638d8c51db'
 
@@ -54,6 +55,35 @@ def prepare(model_name='S2HAND-MT-5B', *, cache_dir=None, base_path=None, delta_
     delta_path = delta_path or hf_hub_download(REPO, manifest['file'], revision=WEIGHT_REVISION, **options)
     print(f'Verifying {model_name} base and delta SHA256...', flush=True)
     verify(base_path, manifest['official_base']['sha256'])
+    verify(delta_path, manifest['sha256'])
+    return Path(base_path), Path(delta_path), manifest
+
+
+def prepare_training_warm_start(*, cache_dir=None, base_path=None,
+                                delta_path=None, manifest_path=None,
+                                local_files_only=False):
+    """Download the pinned common 5B training/Fisher initialization.
+
+    This compact artifact is not a deployment model. It reconstructs the
+    shared initialization from which the final MT and Pose branches were
+    trained independently.
+    """
+    options = dict(cache_dir=cache_dir, local_files_only=local_files_only)
+    prefix = f'training/{TRAINING_WARM_START}'
+    manifest_path = manifest_path or hf_hub_download(
+        REPO, f'{prefix}/manifest.json', revision=WEIGHT_REVISION, **options)
+    manifest = json.loads(Path(manifest_path).read_text())
+    if manifest.get('name') != TRAINING_WARM_START:
+        raise ValueError('Manifest names a different training artifact')
+    if manifest.get('deployment_model') is not False:
+        raise ValueError('Training warm-start must be marked non-deployment')
+    base = manifest['official_base']
+    base_path = base_path or hf_hub_download(
+        base['repo'], base['filename'], revision=base['revision'], **options)
+    delta_path = delta_path or hf_hub_download(
+        REPO, manifest['file'], revision=WEIGHT_REVISION, **options)
+    print('Verifying 5B training warm-start base and delta SHA256...', flush=True)
+    verify(base_path, base['sha256'])
     verify(delta_path, manifest['sha256'])
     return Path(base_path), Path(delta_path), manifest
 
@@ -115,17 +145,14 @@ class S2Hand(nn.Module):
         return self.decode_head(self.backbone(normalized_rgb)[0])
 
 
-def load_model(model_name='S2HAND-MT-5B', *, device='cpu', cache_dir=None,
-               base_path=None, delta_path=None, manifest_path=None, local_files_only=False):
-    """Load full base, freeze public decoder, then replace trained parameters.
+def _load_prepared(model_name, scale, base, delta, manifest, *, device='cpu',
+                   cache_dir=None, local_files_only=False):
+    """Construct a routed model from verified base and replacement files.
 
     Uses meta initialization and mmap-backed safetensors to avoid allocating a
     second randomly initialized 5B model. Keep model parameters in FP32; use
     autocast for optional BF16 inference, as in the research pipeline.
     """
-    base, delta, manifest = prepare(model_name, cache_dir=cache_dir, base_path=base_path,
-        delta_path=delta_path, manifest_path=manifest_path, local_files_only=local_files_only)
-    scale = model_name.rsplit('-', 1)[1].lower()
     cls = backbone_class(cache_dir, local_files_only)
     widths = {'0.4b':1024, '0.8b':1280, '1b':1536, '5b':2432}
     state = load_file(str(base), device='cpu')
@@ -155,6 +182,32 @@ def load_model(model_name='S2HAND-MT-5B', *, device='cpu', cache_dir=None,
     model.requires_grad_(False).eval()
     model.model_name = model_name
     return model.to(device)
+
+
+def load_model(model_name='S2HAND-MT-5B', *, device='cpu', cache_dir=None,
+               base_path=None, delta_path=None, manifest_path=None,
+               local_files_only=False):
+    """Load a final deployment model with its protected decoder route."""
+    base, delta, manifest = prepare(
+        model_name, cache_dir=cache_dir, base_path=base_path,
+        delta_path=delta_path, manifest_path=manifest_path,
+        local_files_only=local_files_only)
+    scale = model_name.rsplit('-', 1)[1].lower()
+    return _load_prepared(
+        model_name, scale, base, delta, manifest, device=device,
+        cache_dir=cache_dir, local_files_only=local_files_only)
+
+
+def load_training_warm_start(*, device='cpu', cache_dir=None, base_path=None,
+                             delta_path=None, manifest_path=None,
+                             local_files_only=False):
+    """Load the exact common 5B initialization for training/Fisher probes."""
+    base, delta, manifest = prepare_training_warm_start(
+        cache_dir=cache_dir, base_path=base_path, delta_path=delta_path,
+        manifest_path=manifest_path, local_files_only=local_files_only)
+    return _load_prepared(
+        TRAINING_WARM_START, '5b', base, delta, manifest, device=device,
+        cache_dir=cache_dir, local_files_only=local_files_only)
 
 
 def main():

@@ -28,25 +28,44 @@ gradient norm. Deployment still uses UDP/DARK, not soft-argmax.
   preregistered catastrophic-tail gate.
 - Random seed: 42 for the released models.
 
+## Common warm-start
+
+Both final 5B variants start from the same source-balanced HInt warm-start,
+which is reconstructed by applying the non-deployment
+`S2HAND-Training-WarmStart-5B` artifact to the pinned official 5B base. The
+warm-start was trained for 12,000 steps with 1:1 NewDays:EPICK sampling. It
+updates the 42 hand projection rows and the complete three-layer 1x1 decoder;
+a frozen public checkpoint supplies the protected route. Its objective is
+target-weighted hand heatmap MSE plus frozen-public teacher distillation.
+
+The released MT and Pose models then branch independently from this common
+initialization. The final Pose model is not a continuation of the final MT
+checkpoint.
+
 ## S2HAND-MT
 
-Start from the official Sapiens2 pose checkpoint. Copy the complete three-layer
-1x1 pose decoder into an adapted route and a frozen public route. Train the
-adapted decoder with the objective above. At inference, take only the 40
+Start from the common warm-start. Copy the complete three-layer 1x1 pose
+decoder into an adapted route and retain the official decoder as a frozen
+public route. Run a 6,000-step decoder warmup followed by 12,000 steps with the
+three-term objective above, using decoder learning rate `2e-5`. At inference,
+take only the 40
 non-wrist finger heatmaps from the adapted route and take all other 268
 heatmaps from the frozen public route. The shared Transformer, deconvolution
 stack, auxiliary task heads, wrists, body, feet, and face routes remain public.
 
 ## S2HAND-Pose
 
-Continue from S2HAND-MT. Train the same adapted hand decoder and exactly three
-Transformer blocks at 0.1 times the decoder learning rate. Released block
+Start independently from the same common warm-start. Train the complete
+adapted hand decoder for 18,000 steps at learning rate `2e-5` and exactly three
+Transformer blocks at learning rate `2e-6`. Released block
 indices are listed in `release_manifest.json`. The 5B model uses zero-based
 blocks 38--40. Blocks were chosen by diagonal-Fisher hand-loss sensitivity;
 the probe takes no optimizer step.
 
-The clean repository currently exposes the exact objective, model
-reconstruction, protected routing, inference, and validation utilities. The
-dataset adapter and end-to-end optimizer launcher are being separated from the
-original Sapiens2 research checkout; until that lands, do not treat this page
-as a one-command claim of retraining the paper checkpoints from scratch.
+The non-deployment warm-start is released so the lineage and Fisher probe do
+not depend on an unpublished intermediate checkpoint. The clean repository
+currently exposes the exact objective, model reconstruction, protected
+routing, inference, and validation utilities. The dataset adapter and
+end-to-end optimizer launcher are being separated from the original Sapiens2
+research checkout; until that lands, do not treat this page as a one-command
+claim of retraining the paper checkpoints from scratch.

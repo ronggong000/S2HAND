@@ -19,7 +19,7 @@
   },
   "model_repository": {
     "id": "mage0001/S2HAND",
-    "revision": "fca5ff0eac4377c2a5f42b9efd6ac4ea31f8f74e",
+    "revision": "e37456b131139e186d9cb5552beb3e99820004d4",
     "private": true
   },
   "dataset_repository": {
@@ -76,6 +76,17 @@
       "official_base_file": "sapiens2_5b_pose.safetensors",
       "official_base_sha256": "b4848da8691c72e14d3ff71319f077363107129bf4128019eb39d072129b2a52",
       "transformer_blocks_zero_based": [38, 39, 40]
+    }
+  ],
+  "training_artifacts": [
+    {
+      "name": "S2HAND-Training-WarmStart-5B",
+      "role": "training_and_fisher_initialization_only",
+      "deployment_model": false,
+      "delta_sha256": "9ee4ce3503ce68d266f3d1892ea4f489b247d470dfc8a94a6623f4e27d47961f",
+      "official_base_repo": "facebook/sapiens2-pose-5b",
+      "official_base_revision": "ada1f29aa1fd454ca28665c700923a0101b6b24f",
+      "lineage": "common warm-start; final MT and Pose branches train independently"
     }
   ],
   "tailguard": {

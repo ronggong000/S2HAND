@@ -45,6 +45,8 @@ The pinned base revisions, delta hashes, Hugging Face revisions, and TailGuard
 configuration are collected in [release_manifest.json](release_manifest.json).
 The hand objective, data roles, routing, and Fisher-selected block policy are
 documented in [docs/TRAINING.md](docs/TRAINING.md).
+The two final 5B variants branch independently from a released compact common
+training warm-start; that artifact is clearly marked non-deployment.
 The no-update block-selection probe and its cached-batch schema are documented
 in [docs/FISHER.md](docs/FISHER.md).
 The aligned 2D hand schemas and strict paper metrics are documented in

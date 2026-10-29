@@ -18,7 +18,9 @@ import numpy as np
 import torch
 from safetensors.torch import load_file
 
-from s2hand.loader import NAMES, load_model
+from s2hand.loader import (
+    NAMES, TRAINING_WARM_START, load_model, load_training_warm_start,
+)
 from s2hand.losses import s2hand_objective
 
 REQUIRED_BATCH_KEYS = (
@@ -149,7 +151,11 @@ def write_results(output: Path, payload: dict) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--model", choices=NAMES, default="S2HAND-MT-5B")
+    parser.add_argument(
+        "--model", choices=(TRAINING_WARM_START, *NAMES),
+        default=TRAINING_WARM_START,
+        help="Initialization to probe; the default exactly matches the paper probe",
+    )
     parser.add_argument("--batch", type=Path, action="append", required=True)
     parser.add_argument("--blocks", default="all")
     parser.add_argument("--max-batches", type=int)
@@ -166,11 +172,15 @@ def main() -> None:
         parser.error("--max-batches must be positive")
 
     device = torch.device(args.device)
-    model = load_model(
-        args.model, device=device, cache_dir=args.cache_dir,
-        base_path=args.base_path, delta_path=args.delta_path,
-        manifest_path=args.manifest_path, local_files_only=args.offline,
+    loader = load_training_warm_start if args.model == TRAINING_WARM_START else load_model
+    loader_kwargs = dict(
+        device=device, cache_dir=args.cache_dir, base_path=args.base_path,
+        delta_path=args.delta_path, manifest_path=args.manifest_path,
+        local_files_only=args.offline,
     )
+    if loader is load_model:
+        loader_kwargs["model_name"] = args.model
+    model = loader(**loader_kwargs)
     model.requires_grad_(False)
     batches = load_batches(args.batch, args.max_batches)
     selected = parse_blocks(args.blocks, len(model.backbone.blocks))

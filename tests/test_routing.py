@@ -4,7 +4,7 @@ from pathlib import Path
 
 import torch
 
-from s2hand.loader import RoutedPoseHead
+from s2hand.loader import RoutedPoseHead, TRAINING_WARM_START
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -54,6 +54,16 @@ class RoutingTest(unittest.TestCase):
                 for name in tensor_names if name.startswith("backbone.blocks.")
             })
             self.assertEqual(observed, blocks)
+
+    def test_training_warm_start_is_not_a_deployment_model(self):
+        manifest = json.loads(
+            (ROOT / "manifests" / f"{TRAINING_WARM_START}.json").read_text()
+        )
+        self.assertEqual(manifest["name"], TRAINING_WARM_START)
+        self.assertIs(manifest["deployment_model"], False)
+        self.assertEqual(
+            manifest["role"], "training_and_fisher_initialization_only"
+        )
 
 
 if __name__ == "__main__":

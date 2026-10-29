@@ -1,0 +1,29 @@
+{
+  "name": "S2HAND-Training-WarmStart-5B",
+  "role": "training_and_fisher_initialization_only",
+  "deployment_model": false,
+  "format": "s2hand_training_warm_start_v1",
+  "file": "training/S2HAND-Training-WarmStart-5B/trainable.safetensors",
+  "bytes": 3468534,
+  "sha256": "9ee4ce3503ce68d266f3d1892ea4f489b247d470dfc8a94a6623f4e27d47961f",
+  "official_base": {
+    "repo": "facebook/sapiens2-pose-5b",
+    "revision": "ada1f29aa1fd454ca28665c700923a0101b6b24f",
+    "filename": "sapiens2_5b_pose.safetensors",
+    "sha256": "b4848da8691c72e14d3ff71319f077363107129bf4128019eb39d072129b2a52"
+  },
+  "tensor_names": [
+    "backbone.rope_embed.periods",
+    "decode_head.conv_layers.0.bias",
+    "decode_head.conv_layers.0.weight",
+    "decode_head.conv_layers.3.bias",
+    "decode_head.conv_layers.3.weight",
+    "decode_head.conv_layers.6.bias",
+    "decode_head.conv_layers.6.weight",
+    "decode_head.conv_pose.bias",
+    "decode_head.conv_pose.weight"
+  ],
+  "training_data": "HInt TRAIN, 1:1 NewDays:EPICK",
+  "selection_split": "HInt VAL NewDays/EPICK macro AUC@0.20",
+  "seed": 42
+}
