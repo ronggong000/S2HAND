@@ -66,7 +66,9 @@ def hand2d_metrics(ground_truth, prediction) -> dict[str, float | int | None]:
         ((error_norm <= threshold) & valid_prediction).sum() / denominator
         for threshold in grid
     ])
-    row["auc_0_20"] = float(np.trapezoid(curve, grid) / 0.20)
+    # np.trapezoid was introduced in NumPy 2.0; np.trapz keeps the declared
+    # NumPy >=1.26 runtime compatible and is numerically identical here.
+    row["auc_0_20"] = float(np.trapz(curve, grid) / 0.20)
 
     finite_joint_error = error_norm[valid_prediction]
     finite_joint_error_px = error_px[valid_prediction]

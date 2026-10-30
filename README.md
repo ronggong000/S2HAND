@@ -5,6 +5,16 @@ Models**
 
 Singyu Muk · Xuanren Song · Kalin Stefanov
 
+[![Model weights](https://img.shields.io/badge/%F0%9F%A4%97%20Models-S2HAND-yellow)](https://huggingface.co/mage0001/S2HAND)
+[![H2SMV-FPV](https://img.shields.io/badge/%F0%9F%A4%97%20Dataset-H2SMV--FPV-yellow)](https://huggingface.co/datasets/mage0001/H2SMV-FPV)
+[![Python](https://img.shields.io/badge/Python-%3E%3D3.10-blue)](pyproject.toml)
+[![License](https://img.shields.io/badge/license-Sapiens2-lightgrey)](LICENSE.md)
+
+**[Models](https://huggingface.co/mage0001/S2HAND) ·
+[H2SMV-FPV generator](https://huggingface.co/datasets/mage0001/H2SMV-FPV) ·
+[Training](docs/TRAINING.md) · [Evaluation](docs/EVALUATION.md) ·
+[TailGuard](docs/TAILGUARD.md)**
+
 S2HAND specializes the hand predictions of Sapiens2 while retaining its native
 308-keypoint whole-body pose interface. It avoids combining an independent hand
 model with a body model, which otherwise introduces another detector, coordinate
@@ -12,6 +22,57 @@ alignment, and wrist-stitching decisions.
 
 > This repository is being prepared privately while the accompanying manuscript
 > is under review. Interfaces and documentation may change before public release.
+
+<p align="center">
+  <img src="assets/s2hand_overview.png" alt="S2HAND method overview" width="100%">
+</p>
+
+## News
+
+- **2026-10-30:** Prepared the private release candidate with five model deltas,
+  standalone loading, training/evaluation code, TailGuard, and the H2SMV-FPV
+  generator. See the [changelog](CHANGELOG.md).
+
+## Highlights
+
+- One 308-keypoint whole-body interface: no separate hand model, coordinate
+  conversion, or wrist stitching at deployment.
+- Two explicit operating points: exact protected routing with **S2HAND-MT**, or
+  stronger hand accuracy with audited shared-backbone changes in
+  **S2HAND-Pose**.
+- Five released model deltas spanning 0.4B to 5B Sapiens2 bases.
+- Reproducible native-pipeline, shared-crop, Fisher, TailGuard, and downstream
+  evaluation tools.
+- Public release will include source, weights, and the asset-free H2SMV-FPV
+  generation recipe.
+
+## Native-pipeline results
+
+AUC@0.20 in percent; higher is better. Each system uses its declared deployable
+detector/crop pipeline, missed hands count as failures, and TailGuard is off.
+EPICK is a validation split and H2SMV-FPV is synthetic.
+
+| Model | NewDays TEST | VISOR TEST | H2O TEST | EPICK VAL | H2SMV-FPV TEST |
+|---|---:|---:|---:|---:|---:|
+| Public Sapiens2-5B | 61.48 | 56.12 | 69.02 | 55.16 | 47.93 |
+| RTMPose-Hand5 | 59.72 | 63.51 | 67.43 | 64.10 | 40.57 |
+| EffHandEgoNet-H2O | 5.20 | 32.25 | **75.25** | 29.11 | 8.37 |
+| S2HAND-MT-5B (ours) | 62.57 | 59.42 | 70.79 | 58.54 | 49.01 |
+| **S2HAND-Pose-5B (ours)** | **70.04** | **74.88** | 73.96 | **74.35** | **56.14** |
+
+See [docs/EVALUATION.md](docs/EVALUATION.md) for normalization, strict miss
+handling, coordinate schemas, and commands. Published HandOS PCK comparisons
+use a different reported metric subset and are therefore kept in the paper
+table rather than mixed into this AUC table.
+
+## Which model should I use?
+
+| Need | Recommended model |
+|---|---|
+| Exact public routing for all 268 non-finger heatmaps and unchanged auxiliary heads | `S2HAND-MT-5B` |
+| Best released hand accuracy | `S2HAND-Pose-5B` |
+| Lower memory/compute while retaining the same 308-point interface | `S2HAND-Pose-0.4B`, `0.8B`, or `1B` |
+| Fewer severe hand failures when a hand detector is already available | Add optional `TailGuard` |
 
 ## Variants
 
@@ -55,6 +116,18 @@ The standalone HInt directory contract and source-balanced training adapter
 are documented in [docs/DATA.md](docs/DATA.md).
 The non-Slurm end-to-end MT/Pose optimizer and HInt checkpoint selector are
 available as `tools/train.py` and documented in [docs/TRAINING.md](docs/TRAINING.md).
+
+## Release map
+
+| Component | Location | Contents |
+|---|---|---|
+| Source | this GitHub repository | installable package, CLI tools, tests, training and evaluation protocols |
+| Model zoo | [Hugging Face S2HAND](https://huggingface.co/mage0001/S2HAND) | five deployment deltas, manifests, hashes, and standalone loader |
+| Synthetic audit set | [Hugging Face H2SMV-FPV](https://huggingface.co/datasets/mage0001/H2SMV-FPV) | frozen split/schema and asset-free Blender generation recipe |
+
+Official Sapiens2 bases and benchmark datasets are not mirrored. The manifests
+pin the required upstream model revisions, and each dataset remains under its
+own terms. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
 ## Installation
 
@@ -141,8 +214,43 @@ are not bundled with the pose checkpoint.
 - S2HAND-Pose-5B passed a complete near-exact HInt validation replay, and the
   real S2HAND-MT-5B 40/268 route passed bitwise protected-channel validation.
 
+Run the release unit tests with:
+
+```bash
+pytest -q
+```
+
+`VALIDATION.md` separates CPU/unit checks from full-resolution GPU replay so a
+passing lightweight test is never presented as a full checkpoint reproduction.
+
 ## License
 
 S2HAND is derived from Sapiens2. The code and model artifacts in this repository
 are distributed under the included [Sapiens2 License](LICENSE.md), not MIT.
 See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for external components.
+
+## Citation
+
+The manuscript is under review. The public bibliographic record will replace
+this temporary entry when available.
+
+```bibtex
+@misc{muk2027s2hand,
+  title  = {S2HAND: Accuracy-Preservation Trade-Offs for Hand Specialization in Whole-Body Pose Models},
+  author = {Muk, Singyu and Song, Xuanren and Stefanov, Kalin},
+  year   = {2027}
+}
+```
+
+Please also cite Sapiens2 and every benchmark or downstream system used in your
+experiment.
+
+## Acknowledgements
+
+S2HAND builds on Meta's Sapiens2 and uses HInt, COCO WholeBody, FreiHAND, H2O,
+DexYCB, AssemblyHands, Pose2Mesh, WiLoR, and Uni-Sign for research evaluation.
+Their licenses and official distributions remain independent of this project.
+
+## Contact
+
+Singyu Muk — `ronggong000@gmail.com`

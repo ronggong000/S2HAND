@@ -1,5 +1,14 @@
 # Loader validation
 
+## Source-package checks (2026-10-30)
+
+- All 28 unit tests pass under the release source tree.
+- Metric integration uses `numpy.trapz`, matching the declared NumPy >=1.26
+  requirement as well as newer NumPy releases.
+- All local Markdown links resolve.
+- No checkpoint, dataset, or file larger than 10 MiB is tracked by GitHub;
+  deployment deltas remain in the Hugging Face model repository.
+
 Before upload, all five models passed:
 
 - Exact base/delta SHA256 verification against their manifests.

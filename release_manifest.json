@@ -13,20 +13,23 @@
   },
   "code": {
     "repository": "https://github.com/ronggong000/S2HAND",
-    "validated_parent_revision": "150e9b3e485c2798980204b3353870db37cbee08",
+    "release_tag": "v0.1.0-rc3",
+    "validation": "28 unit tests plus documented full-resolution model replay",
     "license_file": "LICENSE.md",
     "license": "Sapiens2 License"
   },
   "model_repository": {
     "id": "mage0001/S2HAND",
     "revision": "e37456b131139e186d9cb5552beb3e99820004d4",
+    "revision_scope": "immutable model artifacts pinned by the standalone loader",
+    "latest_documentation_revision": "156338fe7179b3a70d90f50eb0382cd9bef0174f",
     "private": true
   },
   "dataset_repository": {
     "id": "mage0001/H2SMV-FPV",
-    "revision": "1bc3b9fc6ca990749b295d6c1e3258f5a6c9d286",
+    "revision": "a624d11458c23d69a5b1eff9e66a31011f36a4af",
     "private": true,
-    "asset_upload_status": "documentation_split_schema_and_portable_manifest"
+    "asset_upload_status": "documentation_split_schema_and_asset_free_generator"
   },
   "models": [
     {

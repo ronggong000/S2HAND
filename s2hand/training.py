@@ -205,7 +205,8 @@ def hint_metrics(rows: list[dict]) -> dict[str, float]:
                 metrics[prefix + f"PCK@{threshold:.2f}"] = float(
                     np.mean(values <= threshold)
                 )
-            metrics[prefix + "AUC"] = float(np.trapezoid(curve, grid) / 0.20)
+            # Keep compatibility with the declared NumPy >=1.26 requirement.
+            metrics[prefix + "AUC"] = float(np.trapz(curve, grid) / 0.20)
     primary = [metrics[f"{source}_all_AUC"] for source in ("NewDays", "EPICK")
                if f"{source}_all_AUC" in metrics]
     if len(primary) != 2:

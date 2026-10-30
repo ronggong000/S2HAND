@@ -2,6 +2,8 @@ cff-version: 1.2.0
 message: "If you use S2HAND, please cite the accompanying paper."
 title: "S2HAND: Accuracy-Preservation Trade-Offs for Hand Specialization in Whole-Body Pose Models"
 type: software
+version: 0.1.0
+date-released: 2026-10-30
 authors:
   - family-names: Muk
     given-names: Singyu
@@ -16,5 +18,5 @@ authors:
     affiliation: Japan Advanced Institute of Science and Technology
     email: kalins@jaist.ac.jp
 repository-code: "https://github.com/ronggong000/S2HAND"
+repository-artifact: "https://huggingface.co/mage0001/S2HAND"
 license: other
-
